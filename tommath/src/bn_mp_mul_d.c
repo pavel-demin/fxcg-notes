@@ -24,8 +24,8 @@ mp_mul_d (mp_int * a, mp_digit b, mp_int * c)
   int      ix, res, olduse;
 
   /* make sure c is big enough to hold a*b */
-  if (c->alloc < a->used + 1) {
-    if ((res = mp_grow (c, a->used + 1)) != MP_OKAY) {
+  if (c->alloc < a->used + 2) {
+    if ((res = mp_grow (c, a->used + 2)) != MP_OKAY) {
       return res;
     }
   }
@@ -58,7 +58,9 @@ mp_mul_d (mp_int * a, mp_digit b, mp_int * c)
   }
 
   /* store final carry [if any] and increment ix offset  */
-  *tmpc++ = u;
+  *tmpc++ = u & ((mp_word) MP_MASK);
+  ++ix;
+  *tmpc++ = u >> ((mp_word) DIGIT_BIT);
   ++ix;
 
   /* now zero digits above the top */
@@ -67,7 +69,7 @@ mp_mul_d (mp_int * a, mp_digit b, mp_int * c)
   }
 
   /* set used count */
-  c->used = a->used + 1;
+  c->used = a->used + 2;
   mp_clamp(c);
 
   return MP_OKAY;

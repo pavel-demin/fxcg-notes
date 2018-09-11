@@ -321,6 +321,7 @@ int mp_sqr(mp_int *a, mp_int *b);
 
 /* a/b => cb + d == a */
 int mp_div(mp_int *a, mp_int *b, mp_int *c, mp_int *d);
+int alloc_mp_div(mp_int * a, mp_int * b, mp_int * c, mp_int * d,mp_int *q,mp_int *x,mp_int *y,mp_int *t1, mp_int *t2);
 
 /* c = a mod b, 0 <= c < b  */
 int mp_mod(mp_int *a, mp_int *b, mp_int *c);
