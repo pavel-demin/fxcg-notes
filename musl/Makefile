@@ -7,7 +7,6 @@ ARFLAGS  = cru
 ################################################################################
 CC       = sh3eb-elf-gcc
 AR       = sh3eb-elf-gcc-ar
-RANLIB   = sh3eb-elf-gcc-ranlib
 RM       = rm -f
 ################################################################################
 all: $(TARGET)
@@ -15,12 +14,12 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS)
 	@echo ">> Linking $@"
 	@$(AR) $(ARFLAGS) $@ $^
-	@$(RANLIB) $@
 
 %.o: %.c
 	@echo ">> Compiling $<"
 	@$(CC) -c $(CFLAGS) $(INCLUDES) -o $@ $<
 
 clean:
+	@echo ">> Cleaning..."
 	@$(RM) $(OBJECTS)
 	@$(RM) $(TARGET)
