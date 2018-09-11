@@ -2,7 +2,7 @@ TARGET   = libmusl.a
 SOURCES  = $(wildcard */*.c)
 OBJECTS  = $(SOURCES:.c=.o)
 INCLUDES = -Iinclude -Iinternal
-CFLAGS   = -Os -mb -m4a-nofpu -mhitachi -flto
+CFLAGS   = -Os -mb -m4a-nofpu -mhitachi -flto -fno-strict-aliasing
 ARFLAGS  = cru
 ################################################################################
 CC       = sh3eb-elf-gcc
