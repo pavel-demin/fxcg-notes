@@ -17,6 +17,7 @@ mkdir gcc-${version}-build
 cd gcc-${version}-build
 ../gcc-${version}/configure --target=sh3eb-elf --prefix=$prefix \
   --enable-languages=c,c++ \
+  --with-newlib --without-headers --disable-hosted-libstdcxx \
   --disable-nls --disable-shared --disable-multilib
 make -j $jobs all-gcc all-target-libgcc
 make install-gcc install-target-libgcc
