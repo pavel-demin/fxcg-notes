@@ -1,5 +1,7 @@
 version=7.3.0
 
+prefix=/opt/sh3eb-elf
+
 jobs=`nproc 2> /dev/null || echo 1`
 
 tar=gcc-${version}.tar.gz
@@ -13,7 +15,7 @@ cd ..
 
 mkdir gcc-${version}-build
 cd gcc-${version}-build
-../gcc-${version}/configure --target=sh3eb-elf --prefix=/opt/sh3eb-elf \
+../gcc-${version}/configure --target=sh3eb-elf --prefix=$prefix \
   --enable-languages=c,c++ \
   --disable-nls --disable-shared --disable-multilib
 make -j $jobs all-gcc all-target-libgcc
