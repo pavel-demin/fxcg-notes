@@ -13,18 +13,18 @@ install -t $prefix/include/fxcg fxcg/include/*.h
 install -t $prefix/lib fxcg/libfxcg.a
 
 make -C musl clean
-make -C musl
+make -C musl PREFIX=$prefix
 install -t $prefix/include musl/include/*.h
 install -t $prefix/include/bits musl/include/bits/*.h
 install -t $prefix/include/sys musl/include/sys/*.h
 install -t $prefix/lib musl/libmusl.a
 
 make -C ustl clean
-make -C ustl
+make -C ustl PREFIX=$prefix
 install -t $prefix/include ustl/include/*.h
 install -t $prefix/lib ustl/libustl.a
 
 make -C tommath clean
-make -C tommath
+make -C tommath PREFIX=$prefix
 install -t $prefix/include tommath/include/*.h
 install -t $prefix/lib tommath/libtommath.a

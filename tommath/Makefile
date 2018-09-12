@@ -1,7 +1,8 @@
+PREFIX   = /opt/casio
 TARGET   = libtommath.a
 SOURCES  = $(wildcard */*.c)
 OBJECTS  = $(SOURCES:.c=.o)
-INCLUDES = -Iinclude -I/opt/casio/include
+INCLUDES = -Iinclude -I$(PREFIX)/include
 CFLAGS   = -Os -mb -m4a-nofpu -mhitachi -flto -ffreestanding -fno-strict-aliasing
 ARFLAGS  = cru
 ################################################################################

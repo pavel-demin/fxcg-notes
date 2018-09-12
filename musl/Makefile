@@ -1,7 +1,8 @@
+PREFIX   = /opt/casio
 TARGET   = libmusl.a
 SOURCES  = $(wildcard */*.c)
 OBJECTS  = $(SOURCES:.c=.o)
-INCLUDES = -Iinclude -Iinternal
+INCLUDES = -Iinclude -Iinternal -I$(PREFIX)/include
 CFLAGS   = -Os -mb -m4a-nofpu -mhitachi -flto -ffreestanding -fno-strict-aliasing
 ARFLAGS  = cru
 ################################################################################
