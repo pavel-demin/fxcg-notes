@@ -13,14 +13,6 @@ typedef __builtin_va_list __isoc_va_list;
 #endif
 
 
-#ifndef __cplusplus
-#if defined(__NEED_wchar_t) && !defined(__DEFINED_wchar_t)
-typedef long wchar_t;
-#define __DEFINED_wchar_t
-#endif
-
-#endif
-
 #if defined(__NEED_float_t) && !defined(__DEFINED_float_t)
 typedef float float_t;
 #define __DEFINED_float_t

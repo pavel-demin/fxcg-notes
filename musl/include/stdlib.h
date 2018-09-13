@@ -14,7 +14,6 @@ extern "C" {
 #endif
 
 #define __NEED_size_t
-#define __NEED_wchar_t
 
 #include <bits/alltypes.h>
 
@@ -66,12 +65,6 @@ typedef struct { long long quot, rem; } lldiv_t;
 div_t div (int, int);
 ldiv_t ldiv (long, long);
 lldiv_t lldiv (long long, long long);
-
-int mblen (const char *, size_t);
-int mbtowc (wchar_t *__restrict, const char *__restrict, size_t);
-int wctomb (char *, wchar_t);
-size_t mbstowcs (wchar_t *__restrict, const char *__restrict, size_t);
-size_t wcstombs (char *__restrict, const wchar_t *__restrict, size_t);
 
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
