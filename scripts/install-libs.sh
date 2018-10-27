@@ -10,8 +10,9 @@ install -d $prefix/lib
 
 make -C fxcg clean
 make -C fxcg
-install -t $prefix/include/fxcg fxcg/include/*
-install -t $prefix/lib fxcg/libfxcg.a
+install -m 644 -t $prefix/include/fxcg fxcg/include/*
+install -m 644 -t $prefix/lib fxcg/libfxcg.a
+install -m 644 -t $prefix fxcg/fxcg.ld
 
 make -C musl clean
 make -C musl PREFIX=$prefix
