@@ -58,7 +58,7 @@ void GetFKeyPtr(int, void *);
 int GetKey(int *);
 void *GetMiniGlyphPtr(short, short *);
 char GetSetupSetting(int);
-int GetVRAMAddress();
+void *GetVRAMAddress();
 void HourGlass();
 void itoa(int, char *);
 int LocalizeMessage(int, char *);
