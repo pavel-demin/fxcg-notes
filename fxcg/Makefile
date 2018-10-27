@@ -1,6 +1,8 @@
 TARGET   = libfxcg.a
-SOURCES  = $(wildcard */*.S)
-OBJECTS  = $(SOURCES:.S=.o)
+OBJECTS  = $(patsubst %.S,%.o,$(wildcard */*.S))
+OBJECTS += $(patsubst %.c,%.o,$(wildcard */*.c))
+INCLUDES = -Iinclude
+CFLAGS   = -Os -mb -m4a-nofpu -mhitachi -flto -ffreestanding -fno-strict-aliasing
 ARFLAGS  = cru
 ################################################################################
 CC       = sh3eb-elf-gcc
@@ -16,6 +18,10 @@ $(TARGET): $(OBJECTS)
 %.o: %.S
 	@echo ">> Compiling $<"
 	@$(CC) -c -o $@ $<
+
+%.o: %.c
+	@echo ">> Compiling $<"
+	@$(CC) -c $(CFLAGS) $(INCLUDES) -o $@ $<
 
 clean:
 	@echo ">> Cleaning..."
