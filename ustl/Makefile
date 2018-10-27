@@ -1,7 +1,6 @@
 PREFIX   = /opt/casio
 TARGET   = libustl.a
-SOURCES  = $(wildcard */*.cc)
-OBJECTS  = $(SOURCES:.cc=.o)
+OBJECTS  = $(patsubst %.cc,%.o,$(wildcard */*.cc))
 INCLUDES = -Iinclude -Iinternal -I$(PREFIX)/include
 CXXFLAGS = -Os -mb -m4a-nofpu -mhitachi -std=c++98 -flto -ffreestanding -fno-strict-aliasing -fno-rtti -fno-exceptions
 ARFLAGS  = cru
