@@ -30,3 +30,8 @@ make -C tommath clean
 make -C tommath PREFIX=$prefix
 install -m 644 -t $prefix/include tommath/include/*
 install -m 644 -t $prefix/lib tommath/libtommath.a
+
+make -C dialogs clean
+make -C dialogs PREFIX=$prefix
+install -m 644 -t $prefix/include dialogs/include/*
+install -m 644 -t $prefix/lib dialogs/libdialogs.a
