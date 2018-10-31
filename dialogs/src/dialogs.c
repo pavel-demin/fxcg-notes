@@ -131,10 +131,6 @@ static int draw_list(const char *dir, struct entry **list, int size, int first, 
     }
   }
   Scrollbar(&sb);
-  sprintf(buffer, "%d", first);
-  print(0, LCD_HEIGHT_PX - 17, COLOR_BLACK, COLOR_WHITE, buffer);
-  sprintf(buffer, "%d", current);
-  print(40, LCD_HEIGHT_PX - 17, COLOR_BLACK, COLOR_WHITE, buffer);
 }
 
 static int fill_list(const char *dir, const char *mask, struct entry **list, int size)
