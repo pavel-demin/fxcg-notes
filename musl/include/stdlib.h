@@ -64,13 +64,6 @@ size_t __ctype_get_mb_cur_max(void);
 
 #define RAND_MAX (0x7fffffff)
 
-#ifdef _GNU_SOURCE
-struct __locale_struct;
-float strtof_l(const char *__restrict, char **__restrict, struct __locale_struct *);
-double strtod_l(const char *__restrict, char **__restrict, struct __locale_struct *);
-long double strtold_l(const char *__restrict, char **__restrict, struct __locale_struct *);
-#endif
-
 #ifdef __cplusplus
 }
 #endif
