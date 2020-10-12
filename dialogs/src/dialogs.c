@@ -53,6 +53,7 @@ static color_t folder[] =
 struct entry
 {
   int size;
+  int type;
   char name[31];
   char info[7];
 };
@@ -63,8 +64,8 @@ static int compare(const void *p1, const void *p2)
 {
   struct entry *e1 = *(struct entry **)p1;
   struct entry *e2 = *(struct entry **)p2;
-  int dir1 = (e1->size == 0);
-  int dir2 = (e2->size == 0);
+  int dir1 = (e1->type == 0);
+  int dir2 = (e2->type == 0);
   return (dir1 == dir2) ? strcmp(e1->name, e2->name) : (dir2 - dir1);
 }
 
@@ -113,7 +114,7 @@ static int draw_list(const char *dir, struct entry **list, int size, int first, 
     {
       print(16, y, COLOR_BLACK, COLOR_WHITE, list[i]->name);
     }
-    if(list[i]->size == 0)
+    if(list[i]->type == 0)
     {
       draw_icon(2, y + 3, 12, 10, folder);
     }
@@ -149,12 +150,13 @@ static int fill_list(const char *dir, const char *mask, struct entry **list, int
   while(rc == 0 && i < size)
   {
     Bfile_NameToStr_ncpy(buffer, found, 266);
-    if((info.fsize != 0 && Bfile_Name_MatchMask(path, found)) || (info.fsize == 0 && strcmp(buffer, "..") != 0 && strcmp(buffer, ".") != 0))
+    if((info.type != 0 && info.type != 8 && info.type != 9 && Bfile_Name_MatchMask(path, found)) || info.type == 0)
     {
       list[i]->size = info.fsize;
+      list[i]->type = info.type;
       strncpy(list[i]->name, buffer, 30);
       list[i]->name[30] = 0;
-      if(info.fsize)
+      if(info.type != 0)
       {
         type = 0;
         while(info.fsize >= 1024)
