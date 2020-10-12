@@ -12,7 +12,7 @@ make -C fxcg clean
 make -C fxcg
 install -m 644 -t $prefix/include/fxcg fxcg/include/*
 install -m 644 -t $prefix/lib fxcg/libfxcg.a
-install -m 644 -t $prefix fxcg/fxcg.ld
+install -m 644 -t $prefix fxcg/ldscript.ld
 
 make -C musl clean
 make -C musl PREFIX=$prefix
