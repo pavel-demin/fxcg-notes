@@ -8,7 +8,7 @@ extern int bss_end;
 
 extern int main();
 
-void initialize()
+__attribute__((section(".pretext"))) void initialize()
 {
   int *dst, *src;
 
@@ -26,6 +26,4 @@ void initialize()
 
   // call main
   main();
-
-  while(1);
 }

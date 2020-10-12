@@ -5,33 +5,31 @@ ENTRY(_initialize)
 
 _rom_data_start = LOADADDR(.data);
 
-MEMORY
-{
+MEMORY {
   rom (rx) : o = 0x00300000, l = 2048k
   ram (wx) : o = 0x08100004, l = 256k
 }
 
-SECTIONS
-{
+SECTIONS {
   .text : {
-    *(.pretext)
-    *(.text*)
-  } > rom
+    * (.pretext)
+    * (.text*)
+  } >rom
 
   .rodata : {
-    *(.rodata*)
-  } > rom
+    * (.rodata*)
+  } >rom
 
   .data : {
     _ram_data_start = . ;
-    *(.data*)
+    * (.data*)
     _ram_data_end = . ;
   } >ram AT>rom
 
   .bss : {
     _bss_start = . ;
-    *(.bss*)
-    *(COMMON)
+    * (.bss*)
+    * (COMMON)
     _bss_end = . ;
   } >ram
 }
