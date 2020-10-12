@@ -53,6 +53,7 @@ SYSCALL 0x0EAB, GetKey
 SYSCALL 0x01E9, GetMiniGlyphPtr
 SYSCALL 0x0031, GetSetupSetting
 SYSCALL 0x01E6, GetVRAMAddress
+SYSCALL 0x0029, GlibAddinAplExecutionCheck
 SYSCALL 0x02C7, HourGlass
 SYSCALL 0x1170, itoa
 SYSCALL 0x1E63, LoadVRAM_1

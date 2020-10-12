@@ -67,6 +67,7 @@ int GetKey(int *);
 void *GetMiniGlyphPtr(short, short *);
 char GetSetupSetting(int);
 void *GetVRAMAddress();
+void GlibAddinAplExecutionCheck();
 void HourGlass();
 void itoa(int, char *);
 void LoadVRAM_1();

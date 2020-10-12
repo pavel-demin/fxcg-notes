@@ -1,40 +1,37 @@
 OUTPUT_FORMAT(binary)
 OUTPUT_ARCH(sh3)
 
-ENTRY(initialize)
+ENTRY(_initialize)
+
+_rom_data_start = LOADADDR(.data);
 
 MEMORY
 {
   rom (rx) : o = 0x00300000, l = 2048k
-  ram (rwx) : o = 0x08100004, l = 256k
+  ram (wx) : o = 0x08100004, l = 256k
 }
 
 SECTIONS
 {
   .text : {
     *(.pretext)
-    *(.text)
-    *(.text.*)
+    *(.text*)
   } > rom
 
   .rodata : {
-    *(.rodata)
-    *(.rodata.*)
+    *(.rodata*)
   } > rom
 
   .data : {
-    _datald = LOADADDR(.data) ;
-    _sdata = . ;
-    *(.data)
-    *(.data.*)
-    _edata = . ;
+    _ram_data_start = . ;
+    *(.data*)
+    _ram_data_end = . ;
   } >ram AT>rom
 
   .bss : {
-    _bbss = . ;
-    *(.bss)
+    _bss_start = . ;
     *(.bss*)
     *(COMMON)
-    _ebss = . ;
+    _bss_end = . ;
   } >ram
 }
