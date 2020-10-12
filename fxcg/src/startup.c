@@ -22,7 +22,7 @@ void initialize()
   while(dst < &bss_end) *dst++ = 0;
 
   // call GlibAddinAplExecutionCheck
-  GlibAddinAplExecutionCheck();
+  GlibAddinAplExecutionCheck(0, 1, 1);
 
   // call main
   main();
