@@ -5,13 +5,21 @@
 extern "C" {
 #endif
 
+struct file_info
+{
+  unsigned short id, type;
+  unsigned long fsize, dsize;
+  unsigned int property;
+  unsigned long address;
+};
+
 struct scrollbar
 {
-  int I1; // unknown changes indicator height, set to 0
+  int i1; // unknown changes indicator height, set to 0
   int indicatormaximum; // max logical indicator range
   int indicatorheight; // height of the indicator in units
   int indicatorpos; // indicator position in units of max
-  int I5; // unknown, set to 0
+  int i5; // unknown, set to 0
   short barleft; // x position of bar
   short bartop; // y position of bar
   short barheight; // height of bar
@@ -27,8 +35,8 @@ int Bfile_CloseFile_OS(int);
 int Bfile_CreateEntry_OS(const short *, int, int *);
 int Bfile_DeleteEntry(const short *);
 int Bfile_FindClose(int);
-int Bfile_FindFirst_NON_SMEM(const short *, int *, short *, void *);
-int Bfile_FindNext_NON_SMEM(int, short *, void *);
+int Bfile_FindFirst_NON_SMEM(const short *, int *, short *, struct file_info *);
+int Bfile_FindNext_NON_SMEM(int, short *, struct file_info *);
 int Bfile_GetFileSize_OS(int);
 int Bfile_GetMediaFree_OS(short *, int *);
 int Bfile_Name_MatchMask(short *, short *);
