@@ -57,7 +57,7 @@ struct entry
   char info[7];
 };
 
-color_t *vram;
+static color_t *vram;
 
 static int compare(const void *p1, const void *p2)
 {
