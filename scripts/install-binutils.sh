@@ -1,4 +1,4 @@
-version=2.30
+version=2.34
 
 prefix=/opt/sh3eb-elf
 

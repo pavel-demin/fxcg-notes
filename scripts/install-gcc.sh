@@ -1,4 +1,4 @@
-version=7.3.0
+version=9.3.0
 
 prefix=/opt/sh3eb-elf
 
