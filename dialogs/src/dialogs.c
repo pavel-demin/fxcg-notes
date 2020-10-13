@@ -84,10 +84,9 @@ static void draw_icon(int x, int y, int w, int h, const color_t *icon)
   }
 }
 
-static int draw_list(const char *dir, struct entry **list, int size, int first, int current)
+static void draw_list(const char *dir, struct entry **list, int size, int first, int current)
 {
   int i, y;
-  char buffer[8];
   struct scrollbar sb;
 
   sb.i1 = 0;
@@ -137,7 +136,7 @@ static int draw_list(const char *dir, struct entry **list, int size, int first, 
 static int fill_list(const char *dir, const char *mask, struct entry **list, int size)
 {
   int i, rc, type, handle;
-  unsigned short path[266], found[266];
+  short path[266], found[266];
   char buffer[266];
   struct file_info info;
 
