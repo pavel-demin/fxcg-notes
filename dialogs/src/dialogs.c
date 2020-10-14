@@ -60,6 +60,9 @@ struct entry
 
 static color_t *vram;
 
+static short path[256], found[256];
+static char buffer[256];
+
 static int compare(const void *p1, const void *p2)
 {
   struct entry *e1 = *(struct entry **)p1;
@@ -136,19 +139,17 @@ static void draw_list(const char *dir, struct entry **list, int size, int first,
 static int fill_list(const char *dir, const char *mask, struct entry **list, int size)
 {
   int i, rc, type, handle;
-  short path[266], found[266];
-  char buffer[266];
   struct file_info info;
 
   i = 0;
   strcpy(buffer, dir);
   strcat(buffer, "*");
-  Bfile_StrToName_ncpy(path, buffer, 266);
+  Bfile_StrToName_ncpy(path, buffer, 256);
   rc = Bfile_FindFirst_NON_SMEM(path, &handle, found, &info);
-  Bfile_StrToName_ncpy(path, mask, 266);
+  Bfile_StrToName_ncpy(path, mask, 256);
   while(rc == 0 && i < size)
   {
-    Bfile_NameToStr_ncpy(buffer, found, 266);
+    Bfile_NameToStr_ncpy(buffer, found, 256);
     if((info.type != 0 && info.type != 8 && info.type != 9 && Bfile_Name_MatchMask(path, found)) || info.type == 0)
     {
       list[i]->size = info.fsize;
@@ -188,12 +189,12 @@ static int fill_list(const char *dir, const char *mask, struct entry **list, int
   return i;
 }
 
-FILE *open_file_dialog(const char *dir, const char *mask)
+int open_file_dialog(const char *dir, const char *mask)
 {
   int size, i, first, level, key;
   struct entry pool[256];
   struct entry *list[256];
-  char current[266] = "\\\\fls0\\";
+  char current[256] = "\\\\fls0\\";
 
   for(i = 0; i < 256; ++i)
   {
@@ -233,7 +234,7 @@ FILE *open_file_dialog(const char *dir, const char *mask)
       break;
     case KEY_CTRL_EXE:
       if(size == 0) break;
-      if(list[i]->size == 0)
+      if(list[i]->type == 0)
       {
         strcat(current, list[i]->name);
         strcat(current, "\\");
@@ -245,7 +246,8 @@ FILE *open_file_dialog(const char *dir, const char *mask)
       else
       {
         strcat(current, list[i]->name);
-        return fopen(current, "r");
+        Bfile_StrToName_ncpy(path, current, 256);
+        return Bfile_OpenFile_OS(path, 0);
       }
       break;
     case KEY_CTRL_EXIT:
@@ -261,7 +263,7 @@ FILE *open_file_dialog(const char *dir, const char *mask)
       }
       else
       {
-        return NULL;
+        return -1;
       }
       break;
     }
