@@ -1,3 +1,4 @@
+#include <alloca.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
@@ -18,15 +19,15 @@ int open(const char *filename, int mode, ...)
 	Bfile_StrToName_ncpy(buffer, filename, len + 1);
 	fd = Bfile_OpenFile_OS(buffer, mode);
 
-	if (fd >= 0) return fd;
+	if (fd >= 0) return fd + 3;
 
-	if((mode == O_WRONLY) || (mode == O_RDWR))
+	if ((mode == O_WRONLY) || (mode == O_RDWR))
 	{
 		size = 16;
 		rc = Bfile_CreateEntry_OS(buffer, 1, &size);
 		switch (rc) {
 		case 0:
-			return Bfile_OpenFile_OS(buffer, mode);
+			return Bfile_OpenFile_OS(buffer, mode) + 3;
 		case -13:
 			errno = EEXIST;
 			return -1;

@@ -8,8 +8,6 @@ extern "C" {
 #define	__NEED_size_t
 #include <bits/alltypes.h>
 
-void *alloca(size_t);
-
 #ifdef __GNUC__
 #define alloca __builtin_alloca
 #endif
