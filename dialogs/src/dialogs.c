@@ -2,7 +2,6 @@
 #include <fxcg/print.h>
 #include <fxcg/syscalls.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -140,6 +139,7 @@ static int fill_list(const char *dir, const char *mask, struct entry **list, int
 {
   int i, rc, type, handle;
   struct file_info info;
+  char *dst;
 
   i = 0;
   strcpy(buffer, dir);
@@ -173,11 +173,21 @@ static int fill_list(const char *dir, const char *mask, struct entry **list, int
         case 2:
           list[i]->info[5] = 'M';
           break;
+        default:
+          list[i]->info[5] = '0';
+          break;
         }
         list[i]->info[0] = ':';
         list[i]->info[1] = ' ';
-        sprintf(buffer, "%4d", info.fsize);
-        memcpy(list[i]->info + (type ? 1 : 2), buffer, 4);
+        list[i]->info[2] = ' ';
+        list[i]->info[3] = ' ';
+        list[i]->info[4] = ' ';
+        dst = list[i]->info + (type ? 4 : 5);
+        while(info.fsize > 0)
+        {
+          *dst-- = '0' + (info.fsize % 10);
+          info.fsize /= 10;
+        }
         list[i]->info[6] = 0;
       }
       ++i;
