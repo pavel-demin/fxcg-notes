@@ -53,7 +53,7 @@ struct entry
 {
   int size;
   int type;
-  char name[35];
+  char name[40];
   char info[7];
 };
 
@@ -102,7 +102,7 @@ static void draw_list(const char *dir, struct entry **list, int size, int first,
   sb.barwidth = 6;
 
   memset(vram + LCD_WIDTH_PX * 24, 255, LCD_WIDTH_PX * 172 * 2);
-  print(7, 23, COLOR_BLUE, COLOR_WHITE, dir);
+  print(8, 23, COLOR_BLUE, COLOR_WHITE, dir);
   for(i = first; i < first + 9 && i < size; ++i)
   {
     y = 40 + (i - first) * 17;
@@ -124,11 +124,11 @@ static void draw_list(const char *dir, struct entry **list, int size, int first,
       draw_icon(2, y + 1, 12, 14, file);
       if(i == current)
       {
-        print(323, y, COLOR_WHITE, COLOR_BLACK, list[i]->info);
+        print(329, y, COLOR_WHITE, COLOR_BLACK, list[i]->info);
       }
       else
       {
-        print(323, y, COLOR_BLACK, COLOR_WHITE, list[i]->info);
+        print(329, y, COLOR_BLACK, COLOR_WHITE, list[i]->info);
       }
     }
   }
@@ -154,8 +154,8 @@ static int fill_list(const char *dir, const char *mask, struct entry **list, int
     {
       list[i]->size = info.fsize;
       list[i]->type = info.type;
-      strncpy(list[i]->name, buffer, 34);
-      list[i]->name[34] = 0;
+      strncpy(list[i]->name, buffer, 39);
+      list[i]->name[39] = 0;
       if(info.type != 0)
       {
         type = 0;
