@@ -200,16 +200,17 @@ void menu()
 {
   if(running)
   {
-    print(0, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "Stop ");
+    print(0, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Stop ");
   }
   else
   {
-    print(0, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "Start");
+    print(0, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Start");
   }
-  print(64, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Save");
-  print(128, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Load");
-  print(192, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Wire");
-  print(256, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "Electron");
+  print(64, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Save");
+  print(128, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Load");
+  print(192, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Clear");
+  print(256, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Wire");
+  print(320, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "Electron");
 }
 
 void timeout()
@@ -221,6 +222,14 @@ void timeout()
   generation = 1 - generation;
 }
 
+void clear()
+{
+  generation = 0;
+
+  memset(world[0], ' ', COLS * ROWS);
+  memset(world[1], ' ', COLS * ROWS);
+}
+
 void load(int fd)
 {
   size_t size;
@@ -230,10 +239,7 @@ void load(int fd)
   size = Bfile_ReadFile_OS(fd, buffer, size, 0);
   Bfile_CloseFile_OS(fd);
 
-  generation = 0;
-
-  memset(world[0], ' ', COLS * ROWS);
-  memset(world[1], ' ', COLS * ROWS);
+  clear();
 
   copy(buffer, size, world[0], COLS, ROWS);
 }
@@ -243,15 +249,13 @@ int main()
   int fd;
   int key, timer;
 
-  generation = 0;
   running = 1;
   wire = 0;
   electron = 0;
   x = COLS - 1;
   y = ROWS - 1;
 
-  memset(world[0], ' ', COLS * ROWS);
-  memset(world[1], ' ', COLS * ROWS);
+  clear();
 
   copy(example, sizeof(example), world[0], COLS, ROWS);
 
@@ -279,9 +283,12 @@ int main()
       Timer_Start(timer);
       break;
     case KEY_CTRL_F4:
-      wire = 1;
+      clear();
       break;
     case KEY_CTRL_F5:
+      wire = 1;
+      break;
+    case KEY_CTRL_F6:
       electron = 1;
       break;
     case KEY_CTRL_UP:
