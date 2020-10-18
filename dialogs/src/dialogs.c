@@ -93,19 +93,19 @@ static void draw_list(const char *dir, struct entry **list, int size, int first,
 
   sb.i1 = 0;
   sb.indicatormaximum = size;
-  sb.indicatorheight = 9;
+  sb.indicatorheight = 10;
   sb.indicatorpos = first;
   sb.i5 = 0;
-  sb.barheight = LCD_HEIGHT_PX - 48;
+  sb.barheight = LCD_HEIGHT_PX - 40;
   sb.bartop = 0;
   sb.barleft = LCD_WIDTH_PX - 6;
   sb.barwidth = 6;
 
-  memset(vram + LCD_WIDTH_PX * 24, 255, LCD_WIDTH_PX * 172 * 2);
-  print(8, 23, COLOR_BLUE, COLOR_WHITE, dir);
-  for(i = first; i < first + 9 && i < size; ++i)
+  memset(vram + LCD_WIDTH_PX * 24, 255, LCD_WIDTH_PX * 176 * 2);
+  print(8, 24, COLOR_BLUE, COLOR_WHITE, dir);
+  for(i = first; i < first + 10 && i < size; ++i)
   {
-    y = 40 + (i - first) * 17;
+    y = 40 + (i - first) * 16;
     if(i == current)
     {
       memset(vram + LCD_WIDTH_PX * y, 0, LCD_WIDTH_PX * 16 * 2);
@@ -229,7 +229,7 @@ int open_file_dialog(const char *dir, const char *mask)
       if(i < 0)
       {
         i = size - 1;
-        first = size > 9 ? size - 9 : 0;
+        first = size > 10 ? size - 10 : 0;
       }
       if(i < first) --first;
       break;
@@ -240,7 +240,7 @@ int open_file_dialog(const char *dir, const char *mask)
         i = 0;
         first = 0;
       }
-      if(i > first + 8) ++first;
+      if(i > first + 9) ++first;
       break;
     case KEY_CTRL_EXE:
       if(size == 0) break;
