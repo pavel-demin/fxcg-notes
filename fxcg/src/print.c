@@ -268,8 +268,6 @@ void print(int x, int y, color_t fg, color_t bg, const char *text)
   unsigned char element;
   const char *pointer;
   color_t *vram = GetVRAMAddress();
-  for(j = 0; j < 16; ++j) vram[(y + j) * LCD_WIDTH_PX + x + i] = bg;
-  x += 1;
   for(pointer = text; code = *pointer; ++pointer)
   {
     for(i = 0; i < 16; ++i)
@@ -280,7 +278,6 @@ void print(int x, int y, color_t fg, color_t bg, const char *text)
         vram[(y + i) * LCD_WIDTH_PX + x + j] = element & (1 << j) ? fg : bg;
       }
     }
-    for(j = 0; j < 16; ++j) vram[(y + j) * LCD_WIDTH_PX + x + i] = bg;
-    x += 9;
+    x += 8;
   }
 }
