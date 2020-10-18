@@ -124,11 +124,11 @@ static void draw_list(const char *dir, struct entry **list, int size, int first,
       draw_icon(2, y + 1, 12, 14, file);
       if(i == current)
       {
-        print(329, y, COLOR_WHITE, COLOR_BLACK, list[i]->info);
+        print(328, y, COLOR_WHITE, COLOR_BLACK, list[i]->info);
       }
       else
       {
-        print(329, y, COLOR_BLACK, COLOR_WHITE, list[i]->info);
+        print(328, y, COLOR_BLACK, COLOR_WHITE, list[i]->info);
       }
     }
   }
