@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include <fxcg/defs.h>
@@ -11,7 +12,12 @@ int main()
 {
   int i, key;
   string hello = "  ++ Hello World! ++";
+  ostringstream stream;
   vector<char> digit, small, capital;
+
+  stream << hello;
+
+  PrintXY(2, 2, stream.str().c_str(), TEXT_MODE_NORMAL, TEXT_COLOR_RED);
 
   for(i = 0; i < 32; ++i)
   {
@@ -22,8 +28,6 @@ int main()
   digit.push_back(0);
   small.push_back(0);
   capital.push_back(0);
-
-  PrintXY(2, 2, hello.c_str(), TEXT_MODE_NORMAL, TEXT_COLOR_RED);
 
   print(0, 88, COLOR_BLACK, COLOR_WHITE, digit.data());
   print(0, 104, COLOR_BLACK, COLOR_WHITE, capital.data());
