@@ -8,7 +8,6 @@ LDFLAGS  = -nostdlib -T$(PREFIX)/ldscript.ld
 LIBS     = -L$(PREFIX)/lib -ldialogs -lmusl -lfxcg -lgcc
 ################################################################################
 CC       = sh3eb-elf-gcc
-AR       = sh3eb-elf-gcc-ar
 RM       = rm -f
 ################################################################################
 .PRECIOUS: $(OBJECTS) $(BINARY)
