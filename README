@@ -1,0 +1,17 @@
+Installing compiler:
+
+  source install-binutils.sh
+
+  source install-gcc.sh
+
+Installing libraries and tools:
+
+  source install-libs.sh
+
+  source install-mkg3a.sh
+
+Compiling program:
+
+  export PATH=/opt/sh3eb-elf/bin:/opt/casio/bin:$PATH
+
+  make -C hello
