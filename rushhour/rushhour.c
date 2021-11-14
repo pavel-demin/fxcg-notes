@@ -16,6 +16,14 @@ struct piece
   int size;
 };
 
+struct state
+{
+  int active;
+  int size;
+  int map[26];
+  struct piece list[18];
+};
+
 struct data
 {
   int size;
@@ -25,11 +33,7 @@ struct data
 
 static color_t *vram;
 
-static int active, size;
-
-static struct piece list[18];
-
-static int map[26];
+static struct state state;
 
 static struct data data;
 
@@ -39,11 +43,11 @@ void decode(const char *p)
 {
   char code;
   int i, j, k, l;
-  active = 0;
-  size = 0;
+  state.active = 0;
+  state.size = 0;
   for(i = 0; i < 26; ++i)
   {
-    map[i] = -1;
+    state.map[i] = -1;
   }
   for(i = 0; i < 36; ++i)
   {
@@ -51,55 +55,55 @@ void decode(const char *p)
     if(code == 'o' || code == '.') continue;
     if(code == 'x')
     {
-      list[size].head = i;
-      list[size].step = 1;
-      list[size].size = 1;
-      ++size;
+      state.list[state.size].head = i;
+      state.list[state.size].step = 1;
+      state.list[state.size].size = 1;
+      ++state.size;
     }
     if(code >= 'A' && code <= 'Z')
     {
       j = code - 'A';
-      if(map[j] < 0)
+      if(state.map[j] < 0)
       {
-        map[j] = size;
-        list[size].head = i;
-        list[size].step = 0;
-        list[size].size = 1;
-        active = size;
-        ++size;
+        state.map[j] = state.size;
+        state.list[state.size].head = i;
+        state.list[state.size].step = 0;
+        state.list[state.size].size = 1;
+        state.active = state.size;
+        ++state.size;
       }
       else
       {
-        k = map[j];
-        if(list[k].size == 1)
+        k = state.map[j];
+        if(state.list[k].size == 1)
         {
-          list[k].step = i - list[k].head;
+          state.list[k].step = i - state.list[k].head;
         }
-        else if(list[k].size == 2 && i - list[k].head != list[k].step * 2)
+        else if(state.list[k].size == 2 && i - state.list[k].head != state.list[k].step * 2)
         {
-          list[size].step = 0;
+          state.list[state.size].step = 0;
         }
-        list[k].size += 1;
+        state.list[k].size += 1;
       }
     }
   }
   l = 1;
-  for(i = 0; i < size; ++i)
+  for(i = 0; i < state.size; ++i)
   {
-    if(list[i].step == 0)
+    if(state.list[i].step == 0)
     {
-      size = 0;
+      state.size = 0;
       break;
     }
-    if(list[i].size != 1 && i != map[0])
+    if(state.list[i].size != 1 && i != state.map[0])
     {
-      map[l] = i;
+      state.map[l] = i;
       ++l;
     }
   }
   for(i = l; i < 26; ++i)
   {
-    map[i] = -1;
+    state.map[i] = -1;
   }
 }
 
@@ -107,9 +111,9 @@ int occupied(int c)
 {
   int i, j;
   struct piece *p;
-  for(i = 0; i < size; ++i)
+  for(i = 0; i < state.size; ++i)
   {
-    p = list + i;
+    p = state.list + i;
     for(j = 0; j < p->size; ++j)
     {
       if(p->head + j * p->step == c) return 1;
@@ -121,7 +125,7 @@ int occupied(int c)
 void move(int m)
 {
   int j, c, d, n;
-  struct piece *p = list + active;
+  struct piece *p = state.list + state.active;
   if(m > 0)
   {
     c = p->head + p->size * p->step;
@@ -168,46 +172,46 @@ void game()
   int i, x, y;
   struct piece *p;
   char label[2] = "B";
-  for(i = 0; i < size; ++i)
+  for(i = 0; i < state.size; ++i)
   {
-    p = list + i;
+    p = state.list + i;
     x = (p->head % 6) * 29;
     y = (p->head / 6) * 29 + 24;
     if(p->size == 1)
     {
       draw(x + 1, y + 1, 28, 28, wall);
     }
-    else if(p->size == 2 && i == map[0])
+    else if(p->size == 2 && i == state.map[0])
     {
       draw(x + 3, y + 3, 53, 24, car1);
       print(x + 26, y + 8, COLOR_BLACK, 0xf800, "A");
-      if(i == active) arrows(x + 10, y + 8, x + 42, y + 8, 17, 16, 0xf800);
+      if(i == state.active) arrows(x + 10, y + 8, x + 42, y + 8, 17, 16, 0xf800);
     }
     else if(p->size == 2 && p->step == 1)
     {
       draw(x + 3, y + 3, 53, 24, car2);
       print(x + 26, y + 8, COLOR_BLACK, 0x05ff, label);
-      if(i == active) arrows(x + 10, y + 8, x + 42, y + 8, 17, 16, 0x05ff);
+      if(i == state.active) arrows(x + 10, y + 8, x + 42, y + 8, 17, 16, 0x05ff);
     }
     else if(p->size == 2)
     {
       draw(x + 3, y + 3, 24, 53, car3);
       print(x + 12, y + 22, COLOR_BLACK, 0x05ff, label);
-      if(i == active) arrows(x + 12, y + 6, x + 12, y + 38, 30, 31, 0x05ff);
+      if(i == state.active) arrows(x + 12, y + 6, x + 12, y + 38, 30, 31, 0x05ff);
     }
     else if(p->size == 3 && p->step == 1)
     {
       draw(x + 3, y + 3, 82, 24, car4);
       print(x + 39, y + 8, COLOR_BLACK, 0x05ff, label);
-      if(i == active) arrows(x + 23, y + 8, x + 55, y + 8, 17, 16, 0x05ff);
+      if(i == state.active) arrows(x + 23, y + 8, x + 55, y + 8, 17, 16, 0x05ff);
     }
     else if(p->size == 3)
     {
       draw(x + 3, y + 3, 24, 82, car5);
       print(x + 12, y + 35, COLOR_BLACK, 0x05ff, label);
-      if(i == active) arrows(x + 12, y + 19, x + 12, y + 51, 30, 31, 0x05ff);
+      if(i == state.active) arrows(x + 12, y + 19, x + 12, y + 51, 30, 31, 0x05ff);
     }
-    if(p->size != 1 && i != map[0]) label[0] += 1;
+    if(p->size != 1 && i != state.map[0]) label[0] += 1;
   }
 }
 
@@ -278,8 +282,8 @@ int main()
     GetKey(&key);
     if(key >= KEY_CHAR_A && key <= KEY_CHAR_Z)
     {
-      i = map[key - KEY_CHAR_A];
-      if(i >= 0) active = i;
+      i = state.map[key - KEY_CHAR_A];
+      if(i >= 0) state.active = i;
       continue;
     }
     switch(key)
@@ -314,16 +318,16 @@ int main()
       }
       break;
     case KEY_CTRL_UP:
-      if(list[active].step != 1) move(-1);
+      if(state.list[state.active].step != 1) move(-1);
       break;
     case KEY_CTRL_DOWN:
-      if(list[active].step != 1) move(1);
+      if(state.list[state.active].step != 1) move(1);
       break;
     case KEY_CTRL_LEFT:
-      if(list[active].step == 1) move(-1);
+      if(state.list[state.active].step == 1) move(-1);
       break;
     case KEY_CTRL_RIGHT:
-      if(list[active].step == 1) move(1);
+      if(state.list[state.active].step == 1) move(1);
       break;
     }
   }
