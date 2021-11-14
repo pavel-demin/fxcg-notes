@@ -45,7 +45,37 @@ static struct moves moves;
 
 static struct data data;
 
-static const char exemple[] = "BBoKMxDDDKMoIAALooIoJLEEooJFFNoGGoxN";
+static const char example[] =
+  "oooooEooooDEooAADEoooCoooooCoooooCBB"
+  "oooxoooooEoooAAEooooDCCCooDoooooDooo"
+  "ooooxoooooFooAAoFoxoEDDoooEoooooEooo"
+  "ooCoooooCoooAACooooooooDoooooDBBBooD"
+  "ooDooxooDoooAADooooooooECCCooEoooooo"
+  "ooxooxooEoooAAEooooooooFDDDooFoooooo"
+  "ooDoooooDoooAADooooooooEoBBooECCCooE"
+  "ooEooxooEoooAAEooooooooFCCCooFoDDooo"
+  "ooxxoGooEooGooEAAGoooFoooooFDDoooooo"
+  "ooDoooooDoooAADooEoooooEBBBooECCCooo"
+  "ooxoooooECCCAAEooFoooooFDDDooFoooooo"
+  "BBBooGCCCooGAAFoooooFoooooxooxoooooo"
+  "oooDoooooDooAAoDoEoCoooEoCBBoEoooooo"
+  "oooxoooooEooAAoEoFoDoooFoDCCoFoooooo"
+  "oooxoxoooFooAAoFoooEoooGoEDDoGoooooo"
+  "oooDoooooDEoAAoDEFoCoooFoCBBoFoooooo"
+  "oooooxooEoooAAEoooooECCCDDDooFoooooF"
+  "ooxooxooooooAAFoooooFDDDEEEooGoooooG"
+  "oooEoooooEooAAoEoFoooooFoDBBoFoDCCoo"
+  "oooxoooooFCCAAoFoGoEoooGoEDDoGoooooo"
+  "oooxxooooFooAAoFoHoEooGHoEDDGHoooooo"
+  "oooooooooEoFAAoEoFBBoEoFoDoooooDCCoo"
+  "ooExooooEFooAAEFoGoDoooGoDCCoGoooooo"
+  "ooFxoxooFGooAAFGoooEoooHoEDDoHoooooo"
+  "oooooooooEFGAAoEFGBBoEoGoDoooooDCCoo"
+  "oooooxoooFooAAoFoooEoFCCoEDDoGoooooG"
+  "oooxoxooooooAAoGoooFoGDDoFEEoHoooooH"
+  "ooDoooooDooFooDAAFBBBEoFoooECCoooooo"
+  "ooooxoooFoooAAFoooEoFCCCEDDoGoooooGo"
+  "oooxoooooooxAAoGoooFoGDDoFEEoHoooooH";
 
 void decode(const char *p)
 {
@@ -133,7 +163,7 @@ int occupied(int c)
 
 void move(int m)
 {
-  int j, c, d, n;
+  int c, n;
   struct piece *p;
   if(moves.size >= sizeof(moves.data)) return;
   p = state.list + state.active;
@@ -331,9 +361,9 @@ int main()
   timer = Timer_Install(0, timeout, 100);
   Timer_Start(timer);
 
-  data.size = 36;
+  data.size = sizeof(example);
   data.curr = 0;
-  memcpy(data.buffer, exemple, 36);
+  memcpy(data.buffer, example, sizeof(example));
 
   decode(data.buffer);
 
@@ -365,6 +395,10 @@ int main()
       Timer_Start(timer);
       break;
     case KEY_CTRL_F4:
+      i = data.size / 36;
+      i = rand() % i;
+      data.curr = i * 36;
+      decode(data.buffer + data.curr);
       break;
     case KEY_CTRL_F5:
       if(data.curr - 36 >= 0)
