@@ -24,6 +24,12 @@ struct state
   struct piece list[18];
 };
 
+struct moves
+{
+  int size;
+  char data[1024];
+};
+
 struct data
 {
   int size;
@@ -35,6 +41,8 @@ static color_t *vram;
 
 static struct state state;
 
+static struct moves moves;
+
 static struct data data;
 
 static const char exemple[] = "BBoKMxDDDKMoIAALooIoJLEEooJFFNoGGoxN";
@@ -45,6 +53,7 @@ void decode(const char *p)
   int i, j, k, l;
   state.active = 0;
   state.size = 0;
+  moves.size = 0;
   for(i = 0; i < 26; ++i)
   {
     state.map[i] = -1;
@@ -83,7 +92,7 @@ void decode(const char *p)
         {
           state.list[state.size].step = 0;
         }
-        state.list[k].size += 1;
+        ++state.list[k].size;
       }
     }
   }
@@ -125,7 +134,9 @@ int occupied(int c)
 void move(int m)
 {
   int j, c, d, n;
-  struct piece *p = state.list + state.active;
+  struct piece *p;
+  if(moves.size >= sizeof(moves.data)) return;
+  p = state.list + state.active;
   if(m > 0)
   {
     c = p->head + p->size * p->step;
@@ -147,6 +158,21 @@ void move(int m)
   }
   if(occupied(c)) return;
   p->head = n;
+  moves.data[moves.size] = m * state.active;
+  ++moves.size;
+}
+
+void undo()
+{
+  int m;
+  char code;
+  struct piece *p;
+  if(moves.size <= 0) return;
+  --moves.size;
+  code = moves.data[moves.size];
+  p = state.list + abs(code);
+  m = code < 0 ? 1 : -1;
+  p->head += m * p->step;
 }
 
 void draw(int x, int y, int w, int h, const color_t *s)
@@ -215,6 +241,39 @@ void game()
   }
 }
 
+void convert(int v, char *p)
+{
+  int i;
+  for(i = 0; i < 3; ++i) p[i] = ' ';
+  p[3] = '0';
+  p[4] = 0;
+  p += 3;
+  while(v > 0)
+  {
+    *p-- = '0' + (v % 10);
+    v /= 10;
+  }
+}
+
+void text()
+{
+  char buffer[5];
+  print(232, 56, COLOR_BLACK, COLOR_WHITE, "number:");
+  convert(data.curr / 36 + 1, buffer);
+  print(296, 56, COLOR_BLACK, COLOR_WHITE, buffer);
+  print(240, 88, COLOR_BLACK, COLOR_WHITE, "moves:");
+  convert(moves.size, buffer);
+  print(296, 88, COLOR_BLACK, COLOR_WHITE, buffer);
+  if(state.list[state.map[0]].head == 16)
+  {
+    print(240, 120, COLOR_BLACK, COLOR_WHITE, "state:   solved");
+  }
+  else
+  {
+    print(240, 120, COLOR_BLACK, COLOR_WHITE, "state: unsolved");
+  }
+}
+
 void menu()
 {
   print(0, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Undo");
@@ -230,6 +289,7 @@ void timeout()
   memset(vram + LCD_WIDTH_PX * 24, 255, LCD_WIDTH_PX * 176 * 2);
   draw(0, 24, 181, 175, board);
   game();
+  text();
   menu();
   Bdisp_PutDisp_DD();
 }
@@ -271,10 +331,11 @@ int main()
   timer = Timer_Install(0, timeout, 100);
   Timer_Start(timer);
 
-  data.size = 0;
+  data.size = 36;
   data.curr = 0;
+  memcpy(data.buffer, exemple, 36);
 
-  decode(exemple);
+  decode(data.buffer);
 
   while(1)
   {
@@ -289,8 +350,10 @@ int main()
     switch(key)
     {
     case KEY_CTRL_F1:
+      undo();
       break;
     case KEY_CTRL_F2:
+      decode(data.buffer + data.curr);
       break;
     case KEY_CTRL_F3:
       Timer_Stop(timer);
