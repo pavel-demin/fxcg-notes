@@ -2,7 +2,7 @@ from imageio import imread
 
 for name in ['board', 'car1', 'car2', 'car3', 'car4', 'car5', 'wall']:
   image = imread('sprites/' + name + '.png')
-  result = 'static const color_t %s[] = {' % name
+  result = 'static color_t %s[] = {' % name
   for y in range(image.shape[0]):
     for x in range(image.shape[1]):
       r = image[y][x][0] >> 3
