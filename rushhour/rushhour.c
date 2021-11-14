@@ -258,14 +258,14 @@ void game()
     else if(p->size == 3 && p->step == 1)
     {
       draw(x + 3, y + 3, 82, 24, car4);
-      print(x + 39, y + 8, COLOR_BLACK, 0x05ff, label);
-      if(i == state.active) arrows(x + 23, y + 8, x + 55, y + 8, 17, 16, 0x05ff);
+      print(x + 40, y + 8, COLOR_BLACK, 0x05ff, label);
+      if(i == state.active) arrows(x + 24, y + 8, x + 56, y + 8, 17, 16, 0x05ff);
     }
     else if(p->size == 3)
     {
       draw(x + 3, y + 3, 24, 82, car5);
-      print(x + 12, y + 35, COLOR_BLACK, 0x05ff, label);
-      if(i == state.active) arrows(x + 12, y + 19, x + 12, y + 51, 30, 31, 0x05ff);
+      print(x + 12, y + 36, COLOR_BLACK, 0x05ff, label);
+      if(i == state.active) arrows(x + 12, y + 20, x + 12, y + 52, 30, 31, 0x05ff);
     }
     if(p->size != 1 && i != state.map[0]) label[0] += 1;
   }
@@ -306,12 +306,12 @@ void text()
 
 void menu()
 {
-  print(0, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Undo");
-  print(64, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Reset");
-  print(128, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Load");
-  print(192, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Random");
-  print(256, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Prev");
-  print(320, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Next");
+  print(  0, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Undo   ");
+  print( 64, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Reset  ");
+  print(128, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "  Load  ");
+  print(192, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, " Random ");
+  print(256, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "   Prev ");
+  print(320, LCD_HEIGHT_PX - 16, COLOR_BLACK, COLOR_WHITE, "   Next ");
 }
 
 void timeout()
