@@ -264,7 +264,7 @@ static unsigned char font8x16[] =
 void print(int x, int y, color_t fg, color_t bg, const char *text)
 {
   int i, j;
-  char code;
+  unsigned char code;
   unsigned char element;
   const char *pointer;
   color_t *vram = GetVRAMAddress();
