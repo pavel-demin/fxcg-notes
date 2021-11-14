@@ -408,7 +408,7 @@ int main()
       }
       break;
     case KEY_CTRL_F6:
-      if(data.curr + 72 < data.size)
+      if(data.curr + 71 < data.size)
       {
         data.curr += 36;
         decode(data.buffer + data.curr);
