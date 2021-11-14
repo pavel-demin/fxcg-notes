@@ -188,7 +188,7 @@ void move(int m)
   }
   if(occupied(c)) return;
   p->head = n;
-  moves.data[moves.size] = m * state.active;
+  moves.data[moves.size] = m * (state.active + 1);
   ++moves.size;
 }
 
@@ -200,7 +200,7 @@ void undo()
   if(moves.size <= 0) return;
   --moves.size;
   code = moves.data[moves.size];
-  p = state.list + abs(code);
+  p = state.list + abs(code) - 1;
   m = code < 0 ? 1 : -1;
   p->head += m * p->step;
 }
