@@ -1,4 +1,5 @@
 import sys
+from random import choice
 
 try:
   with open('rush.txt', 'r') as f:
@@ -9,19 +10,18 @@ except IOError:
 
 data = buffer.split()
 
-lmin = [[100] * 100, [100] * 100, [100] * 100]
-bmin = [{}, {}, {}]
+l = [ [[], [], []] for _ in range(61) ]
 
 for i in range(len(data) // 3):
   n = int(data[0 + i * 3])
+  if n < 14: continue
   b = data[1 + i * 3]
   c = b.count('x')
   s = set(b) - {'x'} - {'o'} - {'.'}
-  l = len(s)
-  if lmin[c][n] > l:
-    lmin[c][n] = l
-    bmin[c][n] = b
+  if len(s) > 12: continue
+  l[n][c].append(b)
 
-for i in range(7, 60):
-  for j in range(3):
-    if(lmin[j][i] < 13): print(bmin[j][i])
+for i in l:
+  for j in i:
+    if j: print(choice(j))
+
