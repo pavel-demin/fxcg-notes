@@ -214,6 +214,26 @@ void draw(int x, int y, int w, int h, const color_t *s)
   }
 }
 
+void board()
+{
+  int i, j;
+  for(i = 0; i < 175; ++i)
+  {
+    if(i % 29)
+    {
+      for(j = 0; j < 175; j += 29)
+      {
+        vram[LCD_WIDTH_PX * (24 + i) + j] = COLOR_BLACK;
+      }
+    }
+    else
+    {
+      memset(vram + LCD_WIDTH_PX * (24 + i), 0, 175 * 2);
+    }
+  }
+  draw(175, 24 + 67, 6, 12, arrow);
+}
+
 void arrows(int x1, int y1, int x2, int y2, char c1, char c2, color_t color)
 {
   char arrow[2] = " ";
@@ -317,7 +337,7 @@ void menu()
 void timeout()
 {
   memset(vram + LCD_WIDTH_PX * 24, 255, LCD_WIDTH_PX * 176 * 2);
-  draw(0, 24, 181, 175, board);
+  board();
   game();
   text();
   menu();
