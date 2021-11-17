@@ -14,6 +14,7 @@ extern "C" {
 #endif
 
 #define __NEED_size_t
+#define __NEED_wchar_t
 
 #include <bits/alltypes.h>
 
@@ -35,10 +36,12 @@ int rand (void);
 void srand (unsigned);
 
 void *malloc (size_t);
+void *calloc (size_t, size_t);
 void *realloc (void *, size_t);
 void free (void *);
 
 _Noreturn void abort (void);
+_Noreturn void _exit (int);
 _Noreturn void exit (int);
 
 void *bsearch (const void *, const void *, size_t, size_t, int (*)(const void *, const void *));
