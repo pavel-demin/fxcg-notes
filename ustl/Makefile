@@ -2,7 +2,7 @@ PREFIX   = /opt/casio
 TARGET   = libustl.a
 OBJECTS  = $(patsubst %.cc,%.o,$(wildcard */*.cc))
 INCLUDES = -Iinclude -Iinternal -I$(PREFIX)/include
-CXXFLAGS = -Os -mb -m4a-nofpu -mhitachi -std=c++98 -flto -ffreestanding -fno-strict-aliasing -fno-rtti -fno-exceptions
+CXXFLAGS = -Os -mb -m4a-nofpu -mhitachi -std=c++98 -ffreestanding -fno-strict-aliasing -fno-rtti -fno-exceptions
 ARFLAGS  = cru
 ################################################################################
 CXX      = sh3eb-elf-g++
